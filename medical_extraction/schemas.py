@@ -1,8 +1,5 @@
-# Copyright (c) 2025 Sumi Somangili
-# All rights reserved.
-from typing import List, Optional, Dict, Any
+from typing import List, Dict, Optional
 from pydantic import BaseModel
-from datetime import date
 
 class Treatment(BaseModel):
     date: str
@@ -10,12 +7,11 @@ class Treatment(BaseModel):
     facility: Optional[str] = None
     doctor: Optional[str] = None
 
-class TestResult(BaseModel):  # <-- The missing class
+class TestResult(BaseModel):
     date: str
     test_type: str
     result: str
     facility: Optional[str] = None
-    reference_range: Optional[str] = None
 
 class MedicalNote(BaseModel):
     date: str
@@ -27,12 +23,15 @@ class MedicalRecord(BaseModel):
     patient_name: str
     date_of_birth: str
     medical_notes: List[MedicalNote]
+    allergies: List[str] = []
+    chronic_conditions: List[str] = []
 
 class ExtractionResult(BaseModel):
-    patient_info: Dict[str, str]  # Includes id, name, dob
+    patient_info: Dict[str, str]
     condition: str
     treatments: List[Treatment]
-    tests: List[TestResult]  # <-- Now properly defined
+    tests: List[TestResult]
     symptoms: List[Dict[str, str]]
     has_condition: bool
     was_treated: bool
+    error: Optional[str] = None
