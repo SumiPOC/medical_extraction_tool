@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Sumi Somangili
+# All rights reserved.
 from typing import Literal
 from langchain_community.llms import Ollama
 from langchain_openai import ChatOpenAI

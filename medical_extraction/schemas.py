@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Sumi Somangili
+# All rights reserved.
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 from datetime import date

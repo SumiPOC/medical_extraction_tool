@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Sumi Somangili
+# All rights reserved.
 import os
 import streamlit as st
 from dotenv import load_dotenv

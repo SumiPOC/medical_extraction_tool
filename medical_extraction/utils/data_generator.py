@@ -1,4 +1,5 @@
-
+# Copyright (c) 2025 Sumi Somangili
+# All rights reserved.
     
 import random
 from datetime import datetime, timedelta
