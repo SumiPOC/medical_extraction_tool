@@ -57,7 +57,7 @@ def parse_llm_response(response: str) -> tuple:
 
         # Common LLM JSON response cleaning
         content = content.strip()
-        
+
         # Remove markdown code fences if present
         if content.startswith("```json"):
             content = content[7:].strip()
@@ -65,7 +65,7 @@ def parse_llm_response(response: str) -> tuple:
             content = content[3:].strip()
         if content.endswith("```"):
             content = content[:-3].strip()
-        
+
         # Remove leading/trailing quotes and whitespace
         content = content.strip('"\' \n')
 
@@ -104,17 +104,18 @@ def parse_llm_response(response: str) -> tuple:
             str(result.get("Reason", "No reason provided")),
             list(result.get("Evidence", [])),
             float(result.get("Confidence", 0)))
-        
+
     except json.JSONDecodeError as e:
         error_msg = f"JSON Parse Error: {str(e)}\nProblematic content:\n{content[:200]}..."
         print(error_msg)
         return "error", error_msg, [], 0
-        
+
     except Exception as e:
         error_msg = f"Unexpected error: {type(e).__name__}: {str(e)}"
         print(error_msg)
         return "error", error_msg, [], 0
-        
+
+
 def check_model_access(api_key: str, model: str) -> bool:
     """Check if a specific model is available"""
     try:
@@ -151,8 +152,8 @@ def main():
         # Model selection with clear labels
         if llm_provider == "openai":
             # Get API key first
-            env_key = os.getenv("OPENAI_API_KEY")or st.secrets.get("OPENAI_API_KEY") or st.secrets.get("openai", {}).get("api_key")
-            env_key="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"
+            # env_key = os.getenv("OPENAI_API_KEY") or  st.secrets["openai"]["api_key"]
+            env_key = st.secrets["openai"]["api_key"]
             if not env_key:
                 api_key = st.text_input(
                     "OpenAI API Key",
