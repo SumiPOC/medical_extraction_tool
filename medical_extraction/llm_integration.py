@@ -14,7 +14,7 @@ def get_llm(provider: LLM_Provider = "ollama", model: str = None, **kwargs):
         return _get_mock_llm()
     try:
         if provider == "openai":
-            return _get_openai_llm(model or "gpt-3.5-turbo", **kwargs)
+            return _get_openai_llm("gpt-3.5-turbo", **kwargs)
         return _get_ollama_llm(model or "llama3", **kwargs)
     except ImportError:
         print(f"Warning: {provider} not available, using mock LLM")

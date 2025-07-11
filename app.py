@@ -4,12 +4,14 @@ import os
 import json
 import streamlit as st
 from dotenv import load_dotenv
+from openai import OpenAI  # Updated import
 from medical_extraction.llm_integration import get_llm
 from medical_extraction.utils.data_generator import generate_test_data
 from medical_extraction.schemas import MedicalRecord, ExtractionResult
 
 # Initialize environment and session state
 load_dotenv()
+
 
 def create_medical_prompt(medical_data: dict, question: str) -> str:
     """Creates a prompt that forces valid JSON output with clinical analysis"""
@@ -37,6 +39,7 @@ Clinical Notes (analyze these):
 
 Return valid JSON ONLY:"""
 
+
 def parse_llm_response(response: str) -> tuple:
     """Extracts answer from the content field of the response"""
     try:
@@ -47,10 +50,10 @@ def parse_llm_response(response: str) -> tuple:
             content = response
         else:
             content = str(response)
-        
+
         # Clean the content string
         content = content.strip().replace("'", '"')  # Fix single quotes
-        
+
         # Parse the JSON
         result = json.loads(content)
         return (
@@ -61,8 +64,20 @@ def parse_llm_response(response: str) -> tuple:
         )
     except Exception as e:
         print(f"Failed to parse response: {e}")
-        print(f"Raw response content: {content if 'content' in locals() else response}")
+        print(
+            f"Raw response content: {content if 'content' in locals() else response}")
         return "error", f"Parse error: {str(e)}", [], 0
+
+
+def check_model_access(api_key: str, model: str) -> bool:
+    """Check if a specific model is available"""
+    try:
+        client = OpenAI(api_key=api_key)
+        client.models.retrieve(model)
+        return True
+    except:
+        return False
+
 
 def main():
     st.set_page_config(page_title="Medical Extraction", layout="wide")
@@ -79,29 +94,17 @@ def main():
     # --- Sidebar Configuration ---
     with st.sidebar:
         st.header("LLM Configuration")
-        
+
         # Provider selection
         llm_provider = st.selectbox(
             "LLM Provider",
             ["openai", "ollama", "mock"],
             index=0
         )
-        
+
         # Model selection with clear labels
         if llm_provider == "openai":
-            model_options = [
-                ("GPT-4 (Most capable)", "gpt-4-turbo-preview"),
-                ("GPT-3.5 (Fast & economical)", "gpt-3.5-turbo-0125")
-            ]
-            selected_model = st.selectbox(
-                "OpenAI Model",
-                options=model_options,
-                format_func=lambda x: x[0],
-                index=1
-            )
-            llm_model = selected_model[1]  # Get the actual model ID
-            
-            # API key handling
+            # Get API key first
             env_key = os.getenv("OPENAI_API_KEY")
             if not env_key:
                 api_key = st.text_input(
@@ -111,8 +114,31 @@ def main():
                 )
             else:
                 api_key = env_key
-                st.success("Using OpenAI key from .env")
-        
+                
+
+            # Check model availability
+            # In the OpenAI model selection section of your code:
+            if api_key:
+                gpt4_available = check_model_access(api_key, "gpt-4-turbo-preview")
+
+                if gpt4_available:
+                    model_options = [
+                        ("GPT-4 Turbo", "gpt-4-turbo-preview"),
+                        ("GPT-3.5 Turbo", "gpt-3.5-turbo-0125")
+                    ]
+                    llm_model = st.selectbox(
+                        "OpenAI Model",
+                        options=model_options,
+                        format_func=lambda x: x[0],
+                        index=0
+                    )
+                    llm_model = llm_model[1]  # Get the actual model ID
+                else:
+                    # When GPT-4 is not available, don't show the selectbox
+                    # and directly set the model to GPT-3.5
+                    llm_model = "gpt-3.5-turbo-0125"
+                    st.warning("GPT-4 not available - defaulting to GPT-3.5")
+
         elif llm_provider == "ollama":
             model_options = [
                 ("Llama 3 (70B)", "llama3:70b"),
@@ -126,7 +152,7 @@ def main():
                 index=1
             )
             llm_model = selected_model[1]
-            
+
             if st.button("Check Ollama Connection"):
                 try:
                     import ollama
@@ -134,7 +160,7 @@ def main():
                     st.success("Ollama connected!")
                 except Exception as e:
                     st.error(f"Ollama error: {str(e)}")
-        
+
         else:  # mock provider
             llm_model = "mock"
             st.info("Using mock responses for testing")
@@ -144,23 +170,25 @@ def main():
 
     with col1:
         st.header("1. Data Input")
-        
+
         if st.button("✨ Generate Test Data"):
             st.session_state.medical_data = generate_test_data()
-            st.session_state.edited_data = json.dumps(st.session_state.medical_data, indent=2)
+            st.session_state.edited_data = json.dumps(
+                st.session_state.medical_data, indent=2)
             st.success("Test data generated!")
-        
+
         if st.session_state.get('medical_data'):
             st.subheader("Current Data")
-            
+
             # Editable JSON text area
             edited_json = st.text_area(
                 "Edit JSON (make changes below):",
-                value=st.session_state.get('edited_data', json.dumps(st.session_state.medical_data, indent=2)),
+                value=st.session_state.get('edited_data', json.dumps(
+                    st.session_state.medical_data, indent=2)),
                 height=400,
                 key="json_editor"
             )
-            
+
             # Update button
             if st.button("🔄 Update Data"):
                 try:
@@ -169,7 +197,7 @@ def main():
                     st.success("Data updated successfully!")
                 except json.JSONDecodeError as e:
                     st.error(f"Invalid JSON: {str(e)}")
-            
+
             # Validation expander
             with st.expander("🔍 Validate Structure"):
                 try:
@@ -195,21 +223,23 @@ def main():
                             model=llm_model,
                             openai_api_key=api_key if llm_provider == "openai" else None
                         )
-                        
-                        prompt = create_medical_prompt(st.session_state.medical_data, question)
+
+                        prompt = create_medical_prompt(
+                            st.session_state.medical_data, question)
                         response = llm.invoke(prompt)
-                        
+
                         # Debug view - show content field
                         with st.expander("📄 Response Content"):
                             st.code(response.content, language='json')
-                        
+
                         # Parse and display
-                        answer, reason, evidence, confidence = parse_llm_response(response)
-                        
+                        answer, reason, evidence, confidence = parse_llm_response(
+                            response)
+
                         # Display results
                         st.subheader("Clinical Analysis")
                         col_a, col_b = st.columns([1, 3])
-                        
+
                         with col_a:
                             if answer == "yes":
                                 st.success("✅ Yes")
@@ -218,10 +248,10 @@ def main():
                             else:
                                 st.warning("⚠️ Unknown")
                             st.metric("Confidence", f"{confidence*100:.0f}%")
-                        
+
                         with col_b:
                             st.info(f"**Clinical Reasoning:**\n{reason}")
-                            
+
                             if evidence:
                                 st.markdown("**Supporting Evidence:**")
                                 for item in evidence:
@@ -230,9 +260,21 @@ def main():
                                 st.warning("No specific evidence cited")
 
                     except Exception as e:
-                        st.error(f"Analysis failed: {str(e)}")
+                        error_msg = str(e)
+                        if "model_not_found" in error_msg:
+                            st.error("""
+                            **Model Access Error**  
+                            The selected model is not available.  
+                            Possible solutions:  
+                            - Try GPT-3.5 instead  
+                            - [Check your OpenAI access](https://platform.openai.com/account/org-settings)  
+                            - [Upgrade your plan](https://openai.com/pricing)  
+                            """)
+                        else:
+                            st.error(f"Analysis failed: {error_msg}")
                         with st.expander("Technical Details"):
                             st.exception(e)
+
 
 if __name__ == "__main__":
     main()
