@@ -34,41 +34,87 @@ Patient Data:
 
 Question: {question}
 
-Clinical Notes (analyze these):
+Clinical Notes (analyze these, pay very close attention to the note field):
 {json.dumps(medical_data['medical_notes'], indent=2)}
 
 Return valid JSON ONLY:"""
 
 
 def parse_llm_response(response: str) -> tuple:
-    """Extracts answer from the content field of the response"""
+    """Robustly extracts answer from LLM response with comprehensive error handling"""
     try:
-        # Handle different response formats
-        if hasattr(response, 'content'):  # If it's an LLM response object
+        # Extract content from different response types
+        content = ""
+        if hasattr(response, 'content'):  # LLM response object
             content = response.content
         elif isinstance(response, str):
             content = response
         else:
             content = str(response)
 
-        # Clean the content string
-        content = content.strip().replace("'", '"')  # Fix single quotes
+        # Debug: Print raw response before cleaning
+        print(f"Raw response received:\n{content}")
 
-        # Parse the JSON
-        result = json.loads(content)
+        # Common LLM JSON response cleaning
+        content = content.strip()
+        
+        # Remove markdown code fences if present
+        if content.startswith("```json"):
+            content = content[7:].strip()
+        if content.startswith("```"):
+            content = content[3:].strip()
+        if content.endswith("```"):
+            content = content[:-3].strip()
+        
+        # Remove leading/trailing quotes and whitespace
+        content = content.strip('"\' \n')
+
+        # Handle cases where LLM adds explanations before/after JSON
+        json_start = content.find('{')
+        json_end = content.rfind('}') + 1
+        if json_start != -1 and json_end != 0:
+            content = content[json_start:json_end]
+
+        # Fix common JSON issues
+        content = (content
+                   .replace('\\"', '"')  # Unescape quotes
+                   .replace('\\n', ' ')  # Newlines in strings
+                   .replace("'", '"'))    # Single to double quotes
+
+        # Debug: Print cleaned content
+        print(f"Cleaned content:\n{content}")
+
+        # Parse JSON with detailed error reporting
+        try:
+            result = json.loads(content)
+        except json.JSONDecodeError as e:
+            # Try adding quotes around unquoted fields if needed
+            if 'Expecting property name enclosed in double quotes' in str(e):
+                content = re.sub(r'(\w+):', r'"\1":', content)
+                result = json.loads(content)
+            else:
+                raise
+
+        # Validate required fields
+        if not all(key in result for key in ['Answer', 'Reason']):
+            raise ValueError("Missing required fields in JSON response")
+
         return (
-            result.get("Answer", "unknown").lower(),
-            result.get("Reason", "No reason provided"),
-            result.get("Evidence", []),
-            float(result.get("Confidence", 0))
-        )
+            str(result.get("Answer", "unknown")).lower().strip(),
+            str(result.get("Reason", "No reason provided")),
+            list(result.get("Evidence", [])),
+            float(result.get("Confidence", 0)))
+        
+    except json.JSONDecodeError as e:
+        error_msg = f"JSON Parse Error: {str(e)}\nProblematic content:\n{content[:200]}..."
+        print(error_msg)
+        return "error", error_msg, [], 0
+        
     except Exception as e:
-        print(f"Failed to parse response: {e}")
-        print(
-            f"Raw response content: {content if 'content' in locals() else response}")
-        return "error", f"Parse error: {str(e)}", [], 0
-
-
+        error_msg = f"Unexpected error: {type(e).__name__}: {str(e)}"
+        print(error_msg)
+        return "error", error_msg, [], 0
+        
 def check_model_access(api_key: str, model: str) -> bool:
     """Check if a specific model is available"""
     try:
@@ -105,7 +151,8 @@ def main():
         # Model selection with clear labels
         if llm_provider == "openai":
             # Get API key first
-            env_key = os.getenv("OPENAI_API_KEY")
+            env_key = os.getenv("OPENAI_API_KEY")or st.secrets.get("OPENAI_API_KEY") or st.secrets.get("openai", {}).get("api_key")
+            env_key="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"
             if not env_key:
                 api_key = st.text_input(
                     "OpenAI API Key",
@@ -114,12 +161,12 @@ def main():
                 )
             else:
                 api_key = env_key
-                
 
             # Check model availability
             # In the OpenAI model selection section of your code:
             if api_key:
-                gpt4_available = check_model_access(api_key, "gpt-4-turbo-preview")
+                gpt4_available = check_model_access(
+                    api_key, "gpt-4-turbo-preview")
 
                 if gpt4_available:
                     model_options = [
