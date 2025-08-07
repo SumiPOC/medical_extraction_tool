@@ -152,8 +152,8 @@ def main():
         # Model selection with clear labels
         if llm_provider == "openai":
             # Get API key first
-            # env_key = os.getenv("OPENAI_API_KEY") or  st.secrets["openai"]["api_key"]
-            env_key = st.secrets["openai"]["api_key"]
+            env_key = os.getenv("OPENAI_API_KEY") or  st.secrets["openai"]["api_key"]
+            #env_key = st.secrets["openai"]["api_key"]
             if not env_key:
                 api_key = st.text_input(
                     "OpenAI API Key",
