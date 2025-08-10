@@ -2,122 +2,217 @@
 # All rights reserved.
 import os
 import json
+import re
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional
+
 import streamlit as st
 from dotenv import load_dotenv
-from openai import OpenAI  # Updated import
-from medical_extraction.llm_integration import get_llm
-from medical_extraction.utils.data_generator import generate_test_data
-from medical_extraction.schemas import MedicalRecord, ExtractionResult
+from openai import OpenAI
+from pydantic import ValidationError
+
+# Add light theme CSS
+light_theme = """
+<style>
+    /* Light theme colors */
+    :root {
+        --primary: #f0f2f6;
+        --background: white;
+        --secondary: #f0f2f6;
+        --text: black;
+    }
+    
+    /* Remove all icons */
+    [data-testid="stDecoration"],
+    .st-emotion-cache-1v0mbdj e115fcil1 {
+        display: none !important;
+    }
+    
+    /* Button styling */
+    .stButton>button {
+        background-color: #f0f2f6;
+        color: black;
+        border: 1px solid #d6d6d6;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+    }
+    
+    .stButton>button:hover {
+        background-color: #e1e4eb;
+    }
+    
+    /* Input fields */
+    .stTextInput>div>div>input,
+    .stTextArea>div>div>textarea,
+    .stSelectbox>div>div>select {
+        background-color: white;
+        color: black;
+        border: 1px solid #d6d6d6;
+    }
+    
+    /* Success/error messages */
+    .stAlert {
+        border-left: none;
+    }
+    
+    /* Remove expander icons */
+    .st-emotion-cache-1hynsf2 {
+        display: none;
+    }
+</style>
+"""
+
+# Apply light theme
+st.markdown(light_theme, unsafe_allow_html=True)
+
+# Add project root to Python path
+sys.path.append(str(Path(__file__).parent))
+
+try:
+    from medical_extraction.schemas import PatientRecord, validate_patient_data
+    from medical_extraction.utils.clinical_notes_generator import generate_test_data
+    from medical_extraction.llm_integration import get_llm
+except ImportError as e:
+    st.error(f"Import error: {str(e)}")
+    # Fallback implementations
+    def validate_patient_data(data: Dict) -> Dict:
+        return data
+    
+    # Mock implementations
+    class PatientRecord:
+        pass
+    
+    def generate_test_data():
+        return {
+            "patient_id": "PT000",
+            "demographics": {
+                "name": "Test Patient",
+                "dob": "2000-01-01",
+                "gender": "M",
+                "race": "Other",
+                "language": "English"
+            },
+            "timeline": []
+        }
+    
+    def get_llm(*args, **kwargs):
+        class MockLLM:
+            def invoke(self, prompt):
+                return {
+                    "content": json.dumps({
+                        "Answer": "yes",
+                        "Reason": "Mock response",
+                        "Evidence": ["Test evidence"],
+                        "Confidence": 0.95
+                    })
+                }
+        return MockLLM()
 
 # Initialize environment and session state
 load_dotenv()
 
+def safe_date_parse(date_str: str) -> datetime:
+    """Safely parse date strings with multiple formats"""
+    try:
+        return datetime.strptime(date_str, '%Y-%m-%d')
+    except ValueError:
+        try:
+            return datetime.strptime(date_str.split('T')[0], '%Y-%m-%d')
+        except:
+            return datetime.now()
 
-def create_medical_prompt(medical_data: dict, question: str) -> str:
+def create_medical_prompt(medical_data: Dict, question: str) -> str:
     """Creates a prompt that forces valid JSON output with clinical analysis"""
-    return f"""You are a medical analyst. Return JSON with:
-1. Clear yes/no answer
-2. Clinical reasoning
-3. Supporting evidence
-
-Format MUST be:
-{{
-  "Answer": "yes|no",
-  "Reason": "string",
-  "Evidence": ["string"],
-  "Confidence": 0-1
-}}
-
-Patient Data:
-- ID: {medical_data['patient_id']}
-- Conditions: {', '.join(medical_data.get('chronic_conditions', ['None']))}
-
-Question: {question}
-
-Clinical Notes (analyze these, pay very close attention to the note field):
-{json.dumps(medical_data['medical_notes'], indent=2)}
-
-Return valid JSON ONLY:"""
-
+    try:
+        # Safely calculate age from DOB
+        dob = medical_data['demographics']['dob']
+        birth_date = safe_date_parse(dob)
+        age = (datetime.now() - birth_date).days // 365
+        
+        # Extract conditions from timeline
+        conditions = set()
+        for event in medical_data['timeline']:
+            content = event.get('content', {})
+            if 'condition' in content:
+                conditions.add(content['condition'])
+        
+        patient_info = (
+            f"Patient ID: {medical_data.get('patient_id', 'N/A')}\n"
+            f"Name: {medical_data['demographics'].get('name', 'Unknown')}\n"
+            f"Age: {age} years\n"
+            f"Gender: {medical_data['demographics'].get('gender', 'Unknown')}\n"
+            f"Race: {medical_data['demographics'].get('race', 'Unknown')}\n"
+            f"Conditions: {', '.join(conditions) if conditions else 'None'}\n"
+        )
+        
+        # Get the 3 most recent notes
+        recent_notes = [
+            event['content']['note'] for event in medical_data['timeline'] 
+            if 'note' in event.get('content', {})
+        ][-3:]
+        
+        # Build the prompt in parts
+        prompt_parts = [
+            "You are a medical analyst. Return JSON with:",
+            "1. Clear yes/no answer",
+            "2. Clinical reasoning",
+            "3. Supporting evidence from timeline",
+            "",
+            "Format MUST be:",
+            '{',
+            '  "Answer": "yes|no",',
+            '  "Reason": "string",',
+            '  "Evidence": ["string"],',
+            '  "Confidence": 0-1',
+            '}',
+            "",
+            "Patient Information:",
+            patient_info,
+            "",
+            f"Question: {question}",
+            "",
+            "Recent Clinical Notes (analyze these chronologically):",
+            '\n\n'.join(recent_notes),
+            "",
+            "Full Timeline (reference as needed):",
+            json.dumps(medical_data['timeline'], indent=2),
+            "",
+            "Return valid JSON ONLY:"
+        ]
+        
+        return '\n'.join(prompt_parts)
+    except Exception as e:
+        st.error(f"Error creating prompt: {str(e)}")
+        return ""
 
 def parse_llm_response(response: str) -> tuple:
-    """Robustly extracts answer from LLM response with comprehensive error handling"""
+    """Robustly extracts answer from LLM response"""
     try:
-        # Extract content from different response types
-        content = ""
-        if hasattr(response, 'content'):  # LLM response object
-            content = response.content
-        elif isinstance(response, str):
-            content = response
-        else:
-            content = str(response)
-
-        # Debug: Print raw response before cleaning
-        print(f"Raw response received:\n{content}")
-
-        # Common LLM JSON response cleaning
+        content = response.content if hasattr(response, 'content') else str(response)
         content = content.strip()
-
-        # Remove markdown code fences if present
+        
+        # Clean JSON response
         if content.startswith("```json"):
             content = content[7:].strip()
         if content.startswith("```"):
             content = content[3:].strip()
         if content.endswith("```"):
             content = content[:-3].strip()
-
-        # Remove leading/trailing quotes and whitespace
-        content = content.strip('"\' \n')
-
-        # Handle cases where LLM adds explanations before/after JSON
-        json_start = content.find('{')
-        json_end = content.rfind('}') + 1
-        if json_start != -1 and json_end != 0:
-            content = content[json_start:json_end]
-
-        # Fix common JSON issues
-        content = (content
-                   .replace('\\"', '"')  # Unescape quotes
-                   .replace('\\n', ' ')  # Newlines in strings
-                   .replace("'", '"'))    # Single to double quotes
-
-        # Debug: Print cleaned content
-        print(f"Cleaned content:\n{content}")
-
-        # Parse JSON with detailed error reporting
-        try:
-            result = json.loads(content)
-        except json.JSONDecodeError as e:
-            # Try adding quotes around unquoted fields if needed
-            if 'Expecting property name enclosed in double quotes' in str(e):
-                content = re.sub(r'(\w+):', r'"\1":', content)
-                result = json.loads(content)
-            else:
-                raise
-
-        # Validate required fields
-        if not all(key in result for key in ['Answer', 'Reason']):
-            raise ValueError("Missing required fields in JSON response")
-
+        
+        # Parse JSON
+        result = json.loads(content)
         return (
-            str(result.get("Answer", "unknown")).lower().strip(),
+            str(result.get("Answer", "unknown")).lower(),
             str(result.get("Reason", "No reason provided")),
             list(result.get("Evidence", [])),
             float(result.get("Confidence", 0)))
-
-    except json.JSONDecodeError as e:
-        error_msg = f"JSON Parse Error: {str(e)}\nProblematic content:\n{content[:200]}..."
-        print(error_msg)
-        return "error", error_msg, [], 0
-
     except Exception as e:
-        error_msg = f"Unexpected error: {type(e).__name__}: {str(e)}"
-        print(error_msg)
-        return "error", error_msg, [], 0
-
+        return "error", f"Analysis error: {str(e)}", [], 0
 
 def check_model_access(api_key: str, model: str) -> bool:
-    """Check if a specific model is available"""
+    """Check if model is available"""
     try:
         client = OpenAI(api_key=api_key)
         client.models.retrieve(model)
@@ -125,205 +220,155 @@ def check_model_access(api_key: str, model: str) -> bool:
     except:
         return False
 
+def display_timeline(timeline: List[Dict]) -> None:
+    """Display timeline visually"""
+    with st.expander("Patient Timeline"):
+        for event in timeline:
+            col1, col2 = st.columns([1, 4])
+            with col1:
+                st.write(f"**{event['date']}**")
+                st.caption(event['type'].replace('_', ' ').title())
+            with col2:
+                content = event.get('content', {})
+                if 'condition' in content:
+                    st.write(f"**Condition:** {content['condition']}")
+                if 'note' in content:
+                    st.write(content['note'])
+                if 'labs' in content:
+                    st.json(content['labs'])
+
+def validate_patient_json(json_data: str) -> Optional[Dict]:
+    """Validate patient JSON data"""
+    try:
+        data = json.loads(json_data)
+        return validate_patient_data(data).model_dump()
+    except Exception as e:
+        st.error(f"Validation error: {str(e)}")
+        return None
 
 def main():
-    st.set_page_config(page_title="Medical Extraction", layout="wide")
-    st.title("🩺 Medical Condition Extraction Tool")
+    st.set_page_config(page_title="Medical Timeline Analysis", layout="wide")
+    st.title("Medical Timeline Analysis Tool")
 
-    # Initialize all session state variables
+    # Initialize session state
     if 'medical_data' not in st.session_state:
         st.session_state.medical_data = None
     if 'edited_data' not in st.session_state:
         st.session_state.edited_data = None
-    if 'disabled' not in st.session_state:
-        st.session_state.disabled = False
 
-    # --- Sidebar Configuration ---
+    # Sidebar Configuration
     with st.sidebar:
         st.header("LLM Configuration")
-
-        # Provider selection
-        llm_provider = st.selectbox(
-            "LLM Provider",
-            ["openai", "ollama", "mock"],
-            index=0
-        )
-
-        # Model selection with clear labels
+        llm_provider = st.selectbox("LLM Provider", ["openai", "ollama", "mock"])
+        
+        api_key = None
+        llm_model = "mock"
+        
         if llm_provider == "openai":
-            # Get API key first
-            env_key="temp"
-            #env_key = os.getenv("OPENAI_API_KEY") or  st.secrets["openai"]["api_key"]
-            #env_key = st.secrets["openai"]["api_key"]
-            if not env_key:
-                api_key = st.text_input(
-                    "OpenAI API Key",
-                    type="password",
-                    help="Get yours from https://platform.openai.com/api-keys"
-                )
-            else:
-                api_key = env_key
-
-            # Check model availability
-            # In the OpenAI model selection section of your code:
+            api_key = st.text_input("OpenAI API Key", type="password")
             if api_key:
-                gpt4_available = check_model_access(
-                    api_key, "gpt-4-turbo-preview")
-
-                if gpt4_available:
-                    model_options = [
-                        ("GPT-4 Turbo", "gpt-4-turbo-preview"),
-                        ("GPT-3.5 Turbo", "gpt-3.5-turbo-0125")
-                    ]
-                    llm_model = st.selectbox(
-                        "OpenAI Model",
-                        options=model_options,
-                        format_func=lambda x: x[0],
-                        index=0
-                    )
-                    llm_model = llm_model[1]  # Get the actual model ID
-                else:
-                    # When GPT-4 is not available, don't show the selectbox
-                    # and directly set the model to GPT-3.5
-                    llm_model = "gpt-3.5-turbo-0125"
-                    st.warning("GPT-4 not available - defaulting to GPT-3.5")
-
+                llm_model = st.selectbox("Model", ["gpt-4-turbo-preview", "gpt-3.5-turbo-0125"])
+        
         elif llm_provider == "ollama":
-            model_options = [
-                ("Llama 3 (70B)", "llama3:70b"),
-                ("Llama 3 (8B)", "llama3:8b"),
-                ("Mistral (7B)", "mistral")
-            ]
-            selected_model = st.selectbox(
-                "Ollama Model",
-                options=model_options,
-                format_func=lambda x: x[0],
-                index=1
-            )
-            llm_model = selected_model[1]
+            llm_model = st.selectbox("Model", ["llama3:70b", "llama3:8b", "mistral"])
 
-            if st.button("Check Ollama Connection"):
-                try:
-                    import ollama
-                    ollama.list()
-                    st.success("Ollama connected!")
-                except Exception as e:
-                    st.error(f"Ollama error: {str(e)}")
-
-        else:  # mock provider
-            llm_model = "mock"
-            st.info("Using mock responses for testing")
-
-    # --- Main UI ---
+    # Main UI
     col1, col2 = st.columns(2)
 
     with col1:
-        st.header("1. Data Input")
-
-        if st.button("✨ Generate Test Data"):
-            st.session_state.medical_data = generate_test_data()
-            st.session_state.edited_data = json.dumps(
-                st.session_state.medical_data, indent=2)
-            st.success("Test data generated!")
+        st.header("1. Patient Data")
+        if st.button("Generate Test Patient"):
+            try:
+                patients = generate_test_data()
+                if isinstance(patients, list):
+                    st.session_state.medical_data = patients[0]
+                else:
+                    st.session_state.medical_data = patients
+                st.session_state.edited_data = json.dumps(st.session_state.medical_data, indent=2)
+                st.success("Test patient data generated!")
+            except Exception as e:
+                st.error(f"Error generating data: {str(e)}")
 
         if st.session_state.get('medical_data'):
-            st.subheader("Current Data")
-
-            # Editable JSON text area
+            st.subheader("Current Patient Record")
+            demographics = st.session_state.medical_data.get('demographics', {})
+            st.write(f"**Name:** {demographics.get('name', 'Unknown')}")
+            
+            if 'dob' in demographics:
+                age = (datetime.now() - safe_date_parse(demographics['dob'])).days // 365
+                st.write(f"**Age:** {age} years")
+            
+            st.write(f"**Gender:** {demographics.get('gender', 'Unknown')}")
+            
             edited_json = st.text_area(
-                "Edit JSON (make changes below):",
-                value=st.session_state.get('edited_data', json.dumps(
-                    st.session_state.medical_data, indent=2)),
-                height=400,
-                key="json_editor"
+                "Edit JSON:",
+                value=st.session_state.get('edited_data', ""),
+                height=400
             )
-
-            # Update button
-            if st.button("🔄 Update Data"):
-                try:
-                    st.session_state.medical_data = json.loads(edited_json)
-                    st.session_state.edited_data = edited_json
-                    st.success("Data updated successfully!")
-                except json.JSONDecodeError as e:
-                    st.error(f"Invalid JSON: {str(e)}")
-
-            # Validation expander
-            with st.expander("🔍 Validate Structure"):
-                try:
-                    MedicalRecord(**st.session_state.medical_data)
-                    st.success("✅ Valid medical record structure")
-                except Exception as e:
-                    st.error(f"❌ Validation error: {str(e)}")
-                    st.json(MedicalRecord.schema(), expanded=False)
+            
+            if st.button("Update Data"):
+                validated = validate_patient_json(edited_json)
+                if validated:
+                    st.session_state.medical_data = validated
+                    st.success("Data updated!")
+            
+            if 'timeline' in st.session_state.medical_data:
+                display_timeline(st.session_state.medical_data['timeline'])
 
     with col2:
-        st.header("2. Analysis")
+        st.header("2. Clinical Analysis")
         if st.session_state.get('medical_data'):
-            question = st.text_input(
-                "Enter your medical question:",
-                "Did the patient have H. pylori?"
+            question = st.selectbox(
+                "Select question:",
+                [
+                    "Does the patient have uncontrolled hypertension?",
+                    "Has the patient been hospitalized recently?",
+                    "Is the patient on multiple medications?",
+                    "Custom question..."
+                ]
             )
-
-            if st.button("🔍 Analyze"):
-                with st.spinner("Processing..."):
+            
+            if question == "Custom question...":
+                question = st.text_input("Enter question:")
+            
+            if st.button("Analyze") and question:
+                with st.spinner("Analyzing..."):
                     try:
                         llm = get_llm(
                             provider=llm_provider,
                             model=llm_model,
-                            openai_api_key=api_key if llm_provider == "openai" else None
+                            openai_api_key=api_key
                         )
-
+                        
                         prompt = create_medical_prompt(
-                            st.session_state.medical_data, question)
+                            st.session_state.medical_data, 
+                            question
+                        )
+                        
                         response = llm.invoke(prompt)
-
-                        # Debug view - show content field
-                        with st.expander("📄 Response Content"):
-                            st.code(response.content, language='json')
-
-                        # Parse and display
-                        answer, reason, evidence, confidence = parse_llm_response(
-                            response)
-
-                        # Display results
-                        st.subheader("Clinical Analysis")
-                        col_a, col_b = st.columns([1, 3])
-
-                        with col_a:
-                            if answer == "yes":
-                                st.success("✅ Yes")
-                            elif answer == "no":
-                                st.error("❌ No")
-                            else:
-                                st.warning("⚠️ Unknown")
-                            st.metric("Confidence", f"{confidence*100:.0f}%")
-
-                        with col_b:
-                            st.info(f"**Clinical Reasoning:**\n{reason}")
-
-                            if evidence:
-                                st.markdown("**Supporting Evidence:**")
-                                for item in evidence:
-                                    st.write(f"- {item}")
-                            else:
-                                st.warning("No specific evidence cited")
-
-                    except Exception as e:
-                        error_msg = str(e)
-                        if "model_not_found" in error_msg:
-                            st.error("""
-                            **Model Access Error**  
-                            The selected model is not available.  
-                            Possible solutions:  
-                            - Try GPT-3.5 instead  
-                            - [Check your OpenAI access](https://platform.openai.com/account/org-settings)  
-                            - [Upgrade your plan](https://openai.com/pricing)  
-                            """)
+                        answer, reason, evidence, confidence = parse_llm_response(response)
+                        
+                        st.subheader("Results")
+                        if answer == "yes":
+                            st.success("Yes")
+                        elif answer == "no":
+                            st.error("No")
                         else:
-                            st.error(f"Analysis failed: {error_msg}")
-                        with st.expander("Technical Details"):
-                            st.exception(e)
-
+                            st.warning("Unknown")
+                            
+                        st.metric("Confidence", f"{confidence*100:.1f}%")
+                        st.info(f"**Reasoning:** {reason}")
+                        
+                        if evidence:
+                            st.write("**Evidence:**")
+                            for item in evidence:
+                                st.write(f"- {item}")
+                        
+                        with st.expander("View Raw Response"):
+                            st.code(response.content if hasattr(response, 'content') else str(response))
+                    
+                    except Exception as e:
+                        st.error(f"Analysis failed: {str(e)}")
 
 if __name__ == "__main__":
     main()

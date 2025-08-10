@@ -1,0 +1,1881 @@
+[
+  {
+    "patient_id": "PT1000",
+    "demographics": {
+      "name": "John Williams",
+      "dob": "1994-03-20",
+      "gender": "M",
+      "race": "White",
+      "language": "Spanish"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "Hypertension": "I10",
+            "CHF": "I50.9",
+            "Diabetes": "E11.9"
+          },
+          "allergies": [
+            "Sulfa",
+            "NSAIDs"
+          ],
+          "baseline_labs": {
+            "Hypertension": {
+              "BP": "133/88",
+              "Cr": 1.0
+            },
+            "CHF": {
+              "BNP": 1714,
+              "EF": "52%"
+            },
+            "Diabetes": {
+              "HbA1c": 8.3,
+              "Glucose": 348
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-10-16",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "155/75",
+            "Cr": 0.7
+          },
+          "note": "Admitted for acute exacerbation of Hypertension"
+        }
+      },
+      {
+        "date": "2024-10-25",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Hypertension",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Rehab",
+          "follow_up": "3 weeks",
+          "note": "Patient hospitalized for Hypertension management. Discharge condition: Guarded. Follow-up in 1 weeks with PCP."
+        }
+      },
+      {
+        "date": "2024-12-18",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "145/82",
+            "Cr": 1.6
+          },
+          "note": "Admitted for acute exacerbation of Hypertension"
+        }
+      },
+      {
+        "date": "2024-12-25",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Hypertension",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Rehab",
+          "follow_up": "1 weeks",
+          "note": "Patient hospitalized for Hypertension management. Discharge condition: Stable. Follow-up in 4 weeks with specialist."
+        }
+      },
+      {
+        "date": "2025-03-18",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1323,
+            "EF": "47%"
+          },
+          "medications": {
+            "continued": [
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports worsening symptoms. Allergies: Sulfa, NSAIDs. Assessment: CHF well controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-05-12",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "122/82",
+            "Cr": 1.5
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "HCTZ"
+            ],
+            "new": "Lisinopril"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-07-22",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "168/80",
+            "Cr": 2.4
+          },
+          "medications": {
+            "continued": [
+              "HCTZ"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension suboptimally controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-09-27",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "113/89",
+            "Cr": 0.8
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "HCTZ"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension well controlled. Plan: Refer to specialist."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1001",
+    "demographics": {
+      "name": "Michael Williams",
+      "dob": "1956-11-02",
+      "gender": "M",
+      "race": "Hispanic",
+      "language": "Mandarin"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "CHF": "I50.9",
+            "COPD": "J44.9",
+            "Diabetes": "E11.9"
+          },
+          "allergies": [
+            "Penicillin"
+          ],
+          "baseline_labs": {
+            "CHF": {
+              "BNP": 1527,
+              "EF": "22%"
+            },
+            "COPD": {
+              "FEV1": "76%",
+              "O2 Sat": "88%"
+            },
+            "Diabetes": {
+              "HbA1c": 5.2,
+              "Glucose": 127
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-10-06",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1813,
+            "EF": "47%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone",
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Penicillin. Assessment: CHF suboptimally controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2024-12-28",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 422,
+            "EF": "26%"
+          },
+          "medications": {
+            "continued": [
+              "Furosemide",
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports stable symptoms. Allergies: Penicillin. Assessment: CHF suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-03-20",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1373,
+            "EF": "27%"
+          },
+          "medications": {
+            "continued": [
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Penicillin. Assessment: CHF suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-05-21",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 8.3,
+            "Glucose": 237
+          },
+          "medications": {
+            "continued": [
+              "Insulin glargine"
+            ],
+            "new": "Metformin"
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports improved symptoms. Allergies: Penicillin. Assessment: Diabetes well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-07-11",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 8.4,
+            "Glucose": 248
+          },
+          "medications": {
+            "continued": [
+              "Insulin glargine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports improved symptoms. Allergies: Penicillin. Assessment: Diabetes well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-08-10",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "69%",
+            "O2 Sat": "89%"
+          },
+          "medications": {
+            "continued": [
+              "Albuterol",
+              "Tiotropium"
+            ],
+            "new": "Tiotropium"
+          },
+          "note": "Patient presents for follow-up of COPD. Reports stable symptoms. Allergies: Penicillin. Assessment: COPD well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-09-25",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 10.6,
+            "Glucose": 226
+          },
+          "medications": {
+            "continued": [
+              "Glipizide",
+              "Insulin glargine"
+            ],
+            "new": "Metformin"
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports improved symptoms. Allergies: Penicillin. Assessment: Diabetes suboptimally controlled. Plan: Refer to specialist."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1002",
+    "demographics": {
+      "name": "Jennifer Smith",
+      "dob": "1997-02-07",
+      "gender": "F",
+      "race": "White",
+      "language": "English"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "Hypertension": "I10",
+            "CHF": "I50.9",
+            "Diabetes": "E11.9"
+          },
+          "allergies": [
+            "Sulfa",
+            "NSAIDs"
+          ],
+          "baseline_labs": {
+            "Hypertension": {
+              "BP": "173/119",
+              "Cr": 0.9
+            },
+            "CHF": {
+              "BNP": 1021,
+              "EF": "29%"
+            },
+            "Diabetes": {
+              "HbA1c": 11.7,
+              "Glucose": 350
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-10-01",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 11.1,
+            "Glucose": 249
+          },
+          "medications": {
+            "continued": [
+              "Glipizide",
+              "Insulin glargine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports improved symptoms. Allergies: Sulfa, NSAIDs. Assessment: Diabetes well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2024-12-21",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "178/79",
+            "Cr": 0.9
+          },
+          "medications": {
+            "continued": [
+              "Lisinopril",
+              "HCTZ"
+            ],
+            "new": "Amlodipine"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-02-02",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 10.6,
+            "Glucose": 293
+          },
+          "medications": {
+            "continued": [
+              "Glipizide",
+              "Insulin glargine"
+            ],
+            "new": "Insulin glargine"
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports worsening symptoms. Allergies: Sulfa, NSAIDs. Assessment: Diabetes well controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-03-02",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "153/115",
+            "Cr": 0.9
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-05-19",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 227,
+            "EF": "33%"
+          },
+          "note": "Admitted for acute exacerbation of CHF"
+        }
+      },
+      {
+        "date": "2025-06-02",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "CHF",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Home",
+          "follow_up": "4 weeks",
+          "note": "Patient hospitalized for CHF management. Discharge condition: Stable. Follow-up in 2 weeks with specialist."
+        }
+      },
+      {
+        "date": "2025-08-02",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "164/118",
+            "Cr": 2.0
+          },
+          "medications": {
+            "continued": [
+              "HCTZ"
+            ],
+            "new": "Amlodipine"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension suboptimally controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-09-14",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 10.5,
+            "Glucose": 316
+          },
+          "note": "Admitted for acute exacerbation of Diabetes"
+        }
+      },
+      {
+        "date": "2025-09-23",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Diabetes",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Rehab",
+          "follow_up": "2 weeks",
+          "note": "Patient hospitalized for Diabetes management. Underwent Knee Replacement procedure. Discharge condition: Improved. Follow-up in 3 weeks with PCP."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1003",
+    "demographics": {
+      "name": "Mary Smith",
+      "dob": "1996-02-08",
+      "gender": "F",
+      "race": "Hispanic",
+      "language": "English"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "Hypertension": "I10",
+            "CHF": "I50.9"
+          },
+          "allergies": [
+            "Shellfish"
+          ],
+          "baseline_labs": {
+            "Hypertension": {
+              "BP": "114/104",
+              "Cr": 1.8
+            },
+            "CHF": {
+              "BNP": 681,
+              "EF": "43%"
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-09-15",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "163/70",
+            "Cr": 0.8
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2024-10-15",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "133/86",
+            "Cr": 0.9
+          },
+          "medications": {
+            "continued": [
+              "Lisinopril",
+              "Amlodipine"
+            ],
+            "new": "Amlodipine"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2024-11-29",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1306,
+            "EF": "33%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone"
+            ],
+            "new": "Furosemide"
+          },
+          "note": "Patient presents for follow-up of CHF. Reports stable symptoms. Allergies: Shellfish. Assessment: CHF well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-01-13",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 200,
+            "EF": "49%"
+          },
+          "medications": {
+            "continued": [
+              "Carvedilol",
+              "Furosemide"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports worsening symptoms. Allergies: Shellfish. Assessment: CHF well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-03-21",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 342,
+            "EF": "46%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone",
+              "Furosemide"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports stable symptoms. Allergies: Shellfish. Assessment: CHF suboptimally controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-05-11",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "157/70",
+            "Cr": 2.4
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine"
+            ],
+            "new": "HCTZ"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-06-18",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1354,
+            "EF": "49%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports worsening symptoms. Allergies: Shellfish. Assessment: CHF suboptimally controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-07-17",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 308,
+            "EF": "23%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports stable symptoms. Allergies: Shellfish. Assessment: CHF well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-10-03",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "155/72",
+            "Cr": 2.0
+          },
+          "medications": {
+            "continued": [
+              "HCTZ",
+              "Lisinopril"
+            ],
+            "new": "Lisinopril"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Adjust medications."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1004",
+    "demographics": {
+      "name": "Linda Smith",
+      "dob": "1990-02-13",
+      "gender": "F",
+      "race": "Black",
+      "language": "Mandarin"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "Diabetes": "E11.9",
+            "Hypertension": "I10"
+          },
+          "allergies": [
+            "Shellfish"
+          ],
+          "baseline_labs": {
+            "Diabetes": {
+              "HbA1c": 8.3,
+              "Glucose": 346
+            },
+            "Hypertension": {
+              "BP": "158/85",
+              "Cr": 0.8
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-09-15",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "169/78",
+            "Cr": 2.4
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "Lisinopril"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Shellfish. Assessment: Hypertension suboptimally controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2024-10-17",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "135/115",
+            "Cr": 0.6
+          },
+          "medications": {
+            "continued": [
+              "HCTZ",
+              "Amlodipine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Shellfish. Assessment: Hypertension suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2024-12-06",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 6.4,
+            "Glucose": 314
+          },
+          "medications": {
+            "continued": [
+              "Glipizide",
+              "Insulin glargine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports stable symptoms. Allergies: Shellfish. Assessment: Diabetes suboptimally controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-01-18",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "158/119",
+            "Cr": 0.7
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine"
+            ],
+            "new": "HCTZ"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-03-05",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 9.1,
+            "Glucose": 277
+          },
+          "medications": {
+            "continued": [
+              "Insulin glargine",
+              "Glipizide"
+            ],
+            "new": "Glipizide"
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports improved symptoms. Allergies: Shellfish. Assessment: Diabetes suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-04-12",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "165/88",
+            "Cr": 2.4
+          },
+          "note": "Admitted for acute exacerbation of Hypertension"
+        }
+      },
+      {
+        "date": "2025-04-16",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Hypertension",
+          "procedure": "Cardiac Cath",
+          "procedure_icd10": "4A023N7",
+          "disposition": "Rehab",
+          "follow_up": "2 weeks",
+          "note": "Patient hospitalized for Hypertension management. Discharge condition: Stable. Follow-up in 3 weeks with specialist."
+        }
+      },
+      {
+        "date": "2025-05-16",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "115/76",
+            "Cr": 1.1
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "HCTZ"
+            ],
+            "new": "Amlodipine"
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-06-16",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "118/77",
+            "Cr": 2.4
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "HCTZ"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Shellfish. Assessment: Hypertension suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-08-12",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "163/83",
+            "Cr": 2.2
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "Lisinopril"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Shellfish. Assessment: Hypertension well controlled. Plan: Adjust medications."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1005",
+    "demographics": {
+      "name": "Michael Johnson",
+      "dob": "1960-09-16",
+      "gender": "M",
+      "race": "White",
+      "language": "Mandarin"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "CHF": "I50.9",
+            "Hypertension": "I10",
+            "COPD": "J44.9"
+          },
+          "allergies": [
+            "Latex",
+            "Iodine"
+          ],
+          "baseline_labs": {
+            "CHF": {
+              "BNP": 1995,
+              "EF": "43%"
+            },
+            "Hypertension": {
+              "BP": "136/112",
+              "Cr": 1.6
+            },
+            "COPD": {
+              "FEV1": "50%",
+              "O2 Sat": "94%"
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-10-31",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "36%",
+            "O2 Sat": "94%"
+          },
+          "medications": {
+            "continued": [
+              "Prednisone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports stable symptoms. Allergies: Latex, Iodine. Assessment: COPD well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2024-12-01",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "45%",
+            "O2 Sat": "88%"
+          },
+          "medications": {
+            "continued": [
+              "Prednisone",
+              "Tiotropium"
+            ],
+            "new": "Prednisone"
+          },
+          "note": "Patient presents for follow-up of COPD. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: COPD suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-01-04",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 801,
+            "EF": "50%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone",
+              "Furosemide"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: CHF well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-02-26",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 741,
+            "EF": "46%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone",
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports stable symptoms. Allergies: Latex, Iodine. Assessment: CHF suboptimally controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-05-11",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "75%",
+            "O2 Sat": "92%"
+          },
+          "medications": {
+            "continued": [
+              "Albuterol",
+              "Prednisone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: COPD well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-07-20",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "146/96",
+            "Cr": 1.2
+          },
+          "medications": {
+            "continued": [
+              "Lisinopril",
+              "HCTZ"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: Hypertension suboptimally controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-10-05",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "78%",
+            "O2 Sat": "93%"
+          },
+          "medications": {
+            "continued": [
+              "Prednisone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: COPD suboptimally controlled. Plan: Refer to specialist."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1006",
+    "demographics": {
+      "name": "Mary Williams",
+      "dob": "1961-08-08",
+      "gender": "F",
+      "race": "White",
+      "language": "English"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "COPD": "J44.9",
+            "Hypertension": "I10"
+          },
+          "allergies": [
+            "Sulfa",
+            "NSAIDs"
+          ],
+          "baseline_labs": {
+            "COPD": {
+              "FEV1": "35%",
+              "O2 Sat": "91%"
+            },
+            "Hypertension": {
+              "BP": "138/110",
+              "Cr": 1.3
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-09-23",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "42%",
+            "O2 Sat": "97%"
+          },
+          "medications": {
+            "continued": [
+              "Tiotropium",
+              "Prednisone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports stable symptoms. Allergies: Sulfa, NSAIDs. Assessment: COPD suboptimally controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2024-11-13",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "32%",
+            "O2 Sat": "96%"
+          },
+          "medications": {
+            "continued": [
+              "Albuterol",
+              "Tiotropium"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports worsening symptoms. Allergies: Sulfa, NSAIDs. Assessment: COPD well controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-02-03",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "65%",
+            "O2 Sat": "95%"
+          },
+          "note": "Admitted for acute exacerbation of COPD"
+        }
+      },
+      {
+        "date": "2025-02-07",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "COPD",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "SNF",
+          "follow_up": "3 weeks",
+          "note": "Patient hospitalized for COPD management. Underwent Knee Replacement procedure. Discharge condition: Stable. Follow-up in 1 weeks with PCP."
+        }
+      },
+      {
+        "date": "2025-04-08",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "66%",
+            "O2 Sat": "90%"
+          },
+          "medications": {
+            "continued": [
+              "Prednisone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports improved symptoms. Allergies: Sulfa, NSAIDs. Assessment: COPD well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-05-20",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "125/89",
+            "Cr": 2.0
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine",
+              "Lisinopril"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-08-10",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "128/102",
+            "Cr": 1.5
+          },
+          "medications": {
+            "continued": [
+              "Lisinopril"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Sulfa, NSAIDs. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-09-28",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "66%",
+            "O2 Sat": "93%"
+          },
+          "note": "Admitted for acute exacerbation of COPD"
+        }
+      },
+      {
+        "date": "2025-10-01",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "COPD",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "SNF",
+          "follow_up": "2 weeks",
+          "note": "Patient hospitalized for COPD management. Underwent Knee Replacement procedure. Discharge condition: Improved. Follow-up in 1 weeks with PCP."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1007",
+    "demographics": {
+      "name": "Robert Smith",
+      "dob": "1979-08-08",
+      "gender": "M",
+      "race": "Asian",
+      "language": "English"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "CHF": "I50.9"
+          },
+          "allergies": [
+            "Penicillin"
+          ],
+          "baseline_labs": {
+            "CHF": {
+              "BNP": 1955,
+              "EF": "33%"
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-10-08",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1871,
+            "EF": "44%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Penicillin. Assessment: CHF suboptimally controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2024-11-08",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 833,
+            "EF": "24%"
+          },
+          "note": "Admitted for acute exacerbation of CHF"
+        }
+      },
+      {
+        "date": "2024-11-21",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "CHF",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Home",
+          "follow_up": "3 weeks",
+          "note": "Patient hospitalized for CHF management. Underwent Colonoscopy procedure. Discharge condition: Stable. Follow-up in 4 weeks with PCP."
+        }
+      },
+      {
+        "date": "2024-12-19",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1307,
+            "EF": "46%"
+          },
+          "note": "Admitted for acute exacerbation of CHF"
+        }
+      },
+      {
+        "date": "2024-12-26",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "CHF",
+          "procedure": "Cardiac Cath",
+          "procedure_icd10": "4A023N7",
+          "disposition": "Rehab",
+          "follow_up": "2 weeks",
+          "note": "Patient hospitalized for CHF management. Discharge condition: Stable. Follow-up in 1 weeks with PCP."
+        }
+      },
+      {
+        "date": "2025-03-24",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1568,
+            "EF": "42%"
+          },
+          "medications": {
+            "continued": [
+              "Furosemide",
+              "Spironolactone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports stable symptoms. Allergies: Penicillin. Assessment: CHF well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-06-16",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1404,
+            "EF": "42%"
+          },
+          "note": "Admitted for acute exacerbation of CHF"
+        }
+      },
+      {
+        "date": "2025-06-26",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "CHF",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "SNF",
+          "follow_up": "3 weeks",
+          "note": "Patient hospitalized for CHF management. Underwent Colonoscopy procedure. Discharge condition: Guarded. Follow-up in 2 weeks with specialist."
+        }
+      },
+      {
+        "date": "2025-09-10",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 952,
+            "EF": "27%"
+          },
+          "medications": {
+            "continued": [
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Penicillin. Assessment: CHF well controlled. Plan: Continue current regimen."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1008",
+    "demographics": {
+      "name": "Linda Smith",
+      "dob": "1957-05-21",
+      "gender": "F",
+      "race": "Asian",
+      "language": "English"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "Hypertension": "I10",
+            "CHF": "I50.9"
+          },
+          "allergies": [
+            "Latex",
+            "Iodine"
+          ],
+          "baseline_labs": {
+            "Hypertension": {
+              "BP": "115/100",
+              "Cr": 2.2
+            },
+            "CHF": {
+              "BNP": 1092,
+              "EF": "28%"
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-09-28",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "122/72",
+            "Cr": 2.2
+          },
+          "note": "Admitted for acute exacerbation of Hypertension"
+        }
+      },
+      {
+        "date": "2024-10-03",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Hypertension",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Rehab",
+          "follow_up": "4 weeks",
+          "note": "Patient hospitalized for Hypertension management. Discharge condition: Stable. Follow-up in 3 weeks with PCP."
+        }
+      },
+      {
+        "date": "2024-12-11",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "130/105",
+            "Cr": 2.1
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: Hypertension well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-01-13",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1615,
+            "EF": "36%"
+          },
+          "medications": {
+            "continued": [
+              "Carvedilol"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: CHF suboptimally controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-03-13",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 742,
+            "EF": "22%"
+          },
+          "medications": {
+            "continued": [
+              "Carvedilol",
+              "Spironolactone"
+            ],
+            "new": "Spironolactone"
+          },
+          "note": "Patient presents for follow-up of CHF. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: CHF well controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-05-25",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "129/108",
+            "Cr": 0.8
+          },
+          "medications": {
+            "continued": [
+              "Amlodipine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: Hypertension well controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-06-26",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "174/99",
+            "Cr": 1.5
+          },
+          "medications": {
+            "continued": [
+              "HCTZ"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: Hypertension well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-08-08",
+        "type": "office_visit",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 426,
+            "EF": "30%"
+          },
+          "medications": {
+            "continued": [
+              "Spironolactone"
+            ],
+            "new": "Furosemide"
+          },
+          "note": "Patient presents for follow-up of CHF. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: CHF well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-09-17",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "CHF",
+          "icd10": "I50.9",
+          "labs": {
+            "BNP": 1922,
+            "EF": "37%"
+          },
+          "note": "Admitted for acute exacerbation of CHF"
+        }
+      },
+      {
+        "date": "2025-09-23",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "CHF",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "SNF",
+          "follow_up": "1 weeks",
+          "note": "Patient hospitalized for CHF management. Underwent Colonoscopy procedure. Discharge condition: Improved. Follow-up in 3 weeks with specialist."
+        }
+      }
+    ]
+  },
+  {
+    "patient_id": "PT1009",
+    "demographics": {
+      "name": "Mary Williams",
+      "dob": "1968-03-17",
+      "gender": "F",
+      "race": "Hispanic",
+      "language": "English"
+    },
+    "timeline": [
+      {
+        "date": "2024-08-10",
+        "type": "initial_assessment",
+        "content": {
+          "conditions": {
+            "Hypertension": "I10",
+            "Diabetes": "E11.9",
+            "COPD": "J44.9"
+          },
+          "allergies": [
+            "Latex",
+            "Iodine"
+          ],
+          "baseline_labs": {
+            "Hypertension": {
+              "BP": "138/81",
+              "Cr": 1.4
+            },
+            "Diabetes": {
+              "HbA1c": 10.5,
+              "Glucose": 344
+            },
+            "COPD": {
+              "FEV1": "46%",
+              "O2 Sat": "89%"
+            }
+          }
+        }
+      },
+      {
+        "date": "2024-10-03",
+        "type": "office_visit",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 10.7,
+            "Glucose": 174
+          },
+          "medications": {
+            "continued": [
+              "Glipizide",
+              "Insulin glargine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Diabetes. Reports worsening symptoms. Allergies: Latex, Iodine. Assessment: Diabetes well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2024-12-23",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "145/79",
+            "Cr": 1.2
+          },
+          "medications": {
+            "continued": [
+              "HCTZ"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports stable symptoms. Allergies: Latex, Iodine. Assessment: Hypertension suboptimally controlled. Plan: Refer to specialist."
+        }
+      },
+      {
+        "date": "2025-02-28",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "142/107",
+            "Cr": 1.5
+          },
+          "medications": {
+            "continued": [
+              "Lisinopril"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: Hypertension well controlled. Plan: Adjust medications."
+        }
+      },
+      {
+        "date": "2025-04-07",
+        "type": "office_visit",
+        "content": {
+          "condition": "COPD",
+          "icd10": "J44.9",
+          "labs": {
+            "FEV1": "77%",
+            "O2 Sat": "96%"
+          },
+          "medications": {
+            "continued": [
+              "Prednisone"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of COPD. Reports stable symptoms. Allergies: Latex, Iodine. Assessment: COPD well controlled. Plan: Continue current regimen."
+        }
+      },
+      {
+        "date": "2025-06-08",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "128/112",
+            "Cr": 2.4
+          },
+          "note": "Admitted for acute exacerbation of Hypertension"
+        }
+      },
+      {
+        "date": "2025-06-20",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Hypertension",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "SNF",
+          "follow_up": "1 weeks",
+          "note": "Patient hospitalized for Hypertension management. Underwent Knee Replacement procedure. Discharge condition: Stable. Follow-up in 4 weeks with PCP."
+        }
+      },
+      {
+        "date": "2025-07-14",
+        "type": "hospital_admission",
+        "content": {
+          "condition": "Diabetes",
+          "icd10": "E11.9",
+          "labs": {
+            "HbA1c": 8.6,
+            "Glucose": 188
+          },
+          "note": "Admitted for acute exacerbation of Diabetes"
+        }
+      },
+      {
+        "date": "2025-07-26",
+        "type": "discharge_summary",
+        "content": {
+          "condition": "Diabetes",
+          "procedure": null,
+          "procedure_icd10": null,
+          "disposition": "Home",
+          "follow_up": "3 weeks",
+          "note": "Patient hospitalized for Diabetes management. Underwent Cardiac Cath procedure. Discharge condition: Guarded. Follow-up in 2 weeks with PCP."
+        }
+      },
+      {
+        "date": "2025-10-14",
+        "type": "office_visit",
+        "content": {
+          "condition": "Hypertension",
+          "icd10": "I10",
+          "labs": {
+            "BP": "165/98",
+            "Cr": 2.5
+          },
+          "medications": {
+            "continued": [
+              "Lisinopril",
+              "Amlodipine"
+            ],
+            "new": null
+          },
+          "note": "Patient presents for follow-up of Hypertension. Reports improved symptoms. Allergies: Latex, Iodine. Assessment: Hypertension well controlled. Plan: Adjust medications."
+        }
+      }
+    ]
+  }
+]
